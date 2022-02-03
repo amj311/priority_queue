@@ -4,9 +4,16 @@ export default abstract class PriorityQueue<T> {
     public toArray() {
         return this.heap
     }
+    
+    public toSortedArray() {
+        return [...this.heap].sort((a:T,b:T)=>{
+            if (this.isHigherPriority(a,b)) return -1;
+            if (this.isHigherPriority(b,a)) return 1;
+            return 0;
+        })
+    }
 
-    public peekMin (): T {
-        /* Accessing the min element at index 1 in the heap array */
+    public peek (): T {
         return this.heap[0]
     }
 
@@ -64,12 +71,11 @@ export default abstract class PriorityQueue<T> {
 
 
     
-    public popMin(): T|null {
+    public pop(): T|null {
         if (this.heap.length === 0) {
             return null
         }
 
-        /* Smallest element is at the index 1 in the heap array */
         let smallest = this.heap[0]
 
         /* When there are more than one elements in the array, we put the right most element at the first position

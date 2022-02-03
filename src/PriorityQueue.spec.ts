@@ -53,25 +53,37 @@ describe(PriorityQueue, ()=>{
         })
     })
 
+    
+    describe(heap.toSortedArray, ()=>{
+        it("should return properly sorted array", ()=>{
+            heap.insert(5);
+            heap.insert(9);
+            heap.insert(1);
+            heap.insert(4);
+            heap.insert(2);
+            expect(heap.toSortedArray()).toMatchObject([1,2,4,5,9]);
+        })
+    })
 
-    describe(heap.peekMin, ()=>{
+
+    describe(heap.peek, ()=>{
         it("should return smallest and do nothing", ()=>{
             heap.insert(5);
             heap.insert(9);
             heap.insert(1);
             heap.insert(4);
-            expect(heap.peekMin()).toBe(1)
+            expect(heap.peek()).toBe(1)
             expect(heap.toArray()).toMatchObject([1,4,5,9]);
         })
     })
 
-    describe(heap.popMin, ()=>{
+    describe(heap.pop, ()=>{
         it("should pop and return the current smallest", ()=>{
             heap.insert(5);
             heap.insert(9);
             heap.insert(1);
             heap.insert(4);
-            expect(heap.popMin()).toBe(1);
+            expect(heap.pop()).toBe(1);
             expect(heap.toArray().length).toBe(3);
         })
 
@@ -80,7 +92,7 @@ describe(PriorityQueue, ()=>{
             heap.insert(9);
             heap.insert(1);
             heap.insert(4);
-            heap.popMin();
+            heap.pop();
             expect(heap.toArray()).toMatchObject([4,9,5]);
         })
     })
@@ -97,17 +109,17 @@ describe(PriorityQueue, ()=>{
         heap.insert(2);
         expect(heap.toArray()).toMatchObject([2,3,9,5,4]);
 
-        heap.popMin();
+        heap.pop();
         expect(heap.toArray()).toMatchObject([3,4,9,5]);
 
         heap.insert(7);
         expect(heap.toArray()).toMatchObject([3,4,9,5,7]);
 
-        heap.popMin()
-        heap.popMin()
-        heap.popMin()
-        heap.popMin()
-        heap.popMin()
+        heap.pop()
+        heap.pop()
+        heap.pop()
+        heap.pop()
+        heap.pop()
         expect(heap.toArray()).toMatchObject([]);
 
     })
