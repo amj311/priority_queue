@@ -1,43 +1,74 @@
-# FitSnitch-Backend
+# Abstract Priority Queue
 
-## TS and AWS
+This simple library provides an abstract Priority Queue class that can be inherited from
+to work with an data type.
 
-This module is written in Typescript and should be bundled to JavaScript packages before being deployed to AWS Lambda.
+## Inheriting
+When inheriting from this class you only need to define a method called 'isHigherPriority'
+which provides the logic for comparing two items from the queue.
 
-The following command compiles the code using Webpack and the options in `tsconfig.json` and `webpack.config.js`.
-
-```
-$ npm run build
-```
-
-The code generally refelcts the example in [this blog article](https://blog.atj.me/2017/10/bundle-lambda-functions-using-webpack/), with some modifications for Typescript and bundling multiple packages at once.
-
-
-This [blog article](https://scotch.io/@nwayve/how-to-build-a-lambda-function-in-typescript) gives a decent example of a simple Lambda Function written in Typescript. The example looks like this:
+For example:
 
 ``` ts
-export const handler = async (event: any = {}): Promise<any> => {
-    console.log('Hello World!');
-    const response = JSON.stringify(event, null, 2);
-    return response;
+class Dog {
+  constructor(
+    public name:string,
+    public weight:number
+  ) {}
 }
-```
 
-A similar example using the API Gateway types:
-
-``` ts
-import { 
-  APIGatewayProxyEvent, 
-  APIGatewayProxyResult 
-} from "aws-lambda";
-
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
-  const queries = JSON.stringify(event.queryStringParameters);
-  return {
-    statusCode: 200,
-    body: `Queries: ${queries}`
+class DogPile extends PriorityQueue<Dog> {
+  protected isHigherPriority(a: Dog, b: Dog): boolean {
+    if (a.weight < b.weight) return false;
+    return true;
   }
 }
+```
+
+Under the hood, the Priority Queue implements a heap structure, using the abstract `isHigherPriority` method to
+determine how to sift the heap contents. In this way, classes that inherit from the PriorityQueue can behave like a MinHeap, MaxHeap, or anything else that sorts items
+based on any amount of complex priority logic!
+
+## Using the Queue
+
+The queue provides the following method to interact with the data:
+
+| Method | Description |
+|-|-|
+| `insert(item:T)` | Add an item to the queue |
+| `pop() => T` | Returns the highest priority item and removes it from the queue  |
+| `peek() => T` | Returns the highest priority item but leaves it in the queue  |
+| `toArray() => T` | Returns the internal array of the queue - does NOT guarantee sorted order. |
+| `toSortedArray() => T` | Returns an array of all queue elements sorted by priority. |
+
+Example usage (continuing from above):
+
+``` ts
+let dogPile = new DogPile();
+
+let ernie = new Dog("Ernie",7);
+let humph = new Dog("Humphrey",9);
+let tums = new Dog("Mr. Tums",2);
+
+dogPile.insert(humph);
+dogPile.insert(ernie);
+
+console.log(dogPile.peek())
+// Output: { name: "Ernie", age: 7 }
+
+dogPile.insert(tums);
+console.log(dogPile.toSortedArray())
+/* Output:
+[ { name: "Mr. Tums", age: 2 },
+  { name: "Ernie", age: 7 },
+  { name: "Humphrey", age: 9 } ] */
+
+
+console.log(dogPile.pop());
+// Output: { name: "Mr. Tums", age: 2 }
+
+console.log(dogPile.toSortedArray())
+/* Output: 
+[ { name: "Ernie", age: 7 },
+  { name: "Humphrey", age: 9 } ] */
 ```
