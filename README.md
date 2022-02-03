@@ -38,8 +38,8 @@ The queue provides the following method to interact with the data:
 | `insert(item:T)` | Add an item to the queue |
 | `pop() => T` | Returns the highest priority item and removes it from the queue  |
 | `peek() => T` | Returns the highest priority item but leaves it in the queue  |
-| `toArray() => T` | Returns the internal array of the queue - does NOT guarantee sorted order. |
-| `toSortedArray() => T` | Returns an array of all queue elements sorted by priority. |
+| `toArray() => T[]` | Returns the internal array of the queue - does NOT guarantee sorted order. |
+| `toSortedArray() => T[]` | Returns an array of all queue elements sorted by priority. |
 
 Example usage (continuing from above):
 
