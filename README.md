@@ -53,22 +53,27 @@ let tums = new Dog("Mr. Tums",2);
 dogPile.insert(humph);
 dogPile.insert(ernie);
 
-console.log(dogPile.peek())
-// Output: { name: "Ernie", age: 7 }
+dogPile.peek()
+// { name: "Ernie", age: 7 }
 
 dogPile.insert(tums);
-console.log(dogPile.toSortedArray())
-/* Output:
-[ { name: "Mr. Tums", age: 2 },
+dogPile.toSortedArray();
+/*
+[
+  { name: "Mr. Tums", age: 2 },
   { name: "Ernie", age: 7 },
-  { name: "Humphrey", age: 9 } ] */
+  { name: "Humphrey", age: 9 },
+]
+*/
 
+dogPile.pop();
+// { name: "Mr. Tums", age: 2 }
 
-console.log(dogPile.pop());
-// Output: { name: "Mr. Tums", age: 2 }
-
-console.log(dogPile.toSortedArray())
-/* Output: 
-[ { name: "Ernie", age: 7 },
-  { name: "Humphrey", age: 9 } ] */
+dogPile.toSortedArray()
+/*
+[
+  { name: "Ernie", age: 7 },
+  { name: "Humphrey", age: 9 },
+]
+*/
 ```
