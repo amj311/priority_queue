@@ -1,7 +1,7 @@
 # Abstract Priority Queue
 
 This simple library provides an abstract Priority Queue class that can be inherited from
-to work with an data type.
+to work with any data type. It can function as a min-heap, max-heap, BST, any way you define the priority function.
 
 ## Inheriting
 When inheriting from this class you only need to define a method called 'isHigherPriority'
